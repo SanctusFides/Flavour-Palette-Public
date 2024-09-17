@@ -1,6 +1,7 @@
 Full encompassing Spring Book project for the resume for https://github.com/SanctusFides/
 
 Requirements to run this app:
+
   Google Developer Account: Required to enable Google OAuth logins for users
     -  Add your account's client ID and secret key under applications.yml or remove the security block from the file and only use regular user/pass login methods
     
