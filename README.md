@@ -1,4 +1,4 @@
-Full encompassing Spring Book project for the resume for https://github.com/SanctusFides/
+Full encompassing Spring Book project for the resume of https://github.com/SanctusFides/
 
 Requirements to run this app:
 
