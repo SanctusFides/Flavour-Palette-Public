@@ -12,7 +12,7 @@ Requirements to run this app:
   The application.yml file is preloaded with environment variables that can be used or plain text sources can be used to replace them.
 
 
-  Cloudinary Account: Required for image hosting\
+  Cloudinary Account: Required for image hosting
   
   - Set in the environment using "CLOUDINARY_URL" as the variable (recommended) or the commented out preset string in the SecurityConstants file 
   - Enter your account's image url into the CloudinaryImpl file where the placeholder variable is currently listed as "PLACHOLDER"
