@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Flavour Palette</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+    </header>
+    <main>
+        <div class="two-rem-top-gap favorites-content">
+            <div class="user-recipes">
+                <h3>My Recipes</h3>
+                <div class="favorites-cards">
+                    <div th:unless="${userRecipeList.size}">
+                        <p style="font-size: large;">Browse our recipes and add your favorites!</p>
+                    </div>
+                    <div class="result-card" th:each="recipe: ${userRecipeList}">
+                        <a th:href="@{'/recipe/' + ${recipe.recipeDTO.recipeId}}">
+                            <div class="result-card-body">
+                                <h4 class="result-card-title" th:text="${recipe.recipeDTO.recipeName}">Recipe Title</h4>
+                                <p class="result-card-desc" th:text="${recipe.recipeDTO.description}">Recipe Description</p>
+                                <p class="result-card-time" th:text="'Total Time: ' + ${recipe.recipeDTO.totalTime}">Recipe Total Time</p>
+                                <div class="result-rating">
+                                    <p th:if="${recipe.rating > 0}">
+                                        <span th:each="rating: ${#numbers.sequence(0, recipe.rating -1)}">
+                                          &#9733;
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

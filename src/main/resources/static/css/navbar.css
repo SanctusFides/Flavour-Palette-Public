@@ -1,0 +1,114 @@
+/* NavBar settings - elements below should be in order from left to right on the navbar */
+.nbar {
+  background-color: var(--darkc);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3rem;
+  min-height: 66px;
+  padding-bottom: 2px;
+  height: 100%;
+}
+
+.navbar-left, .flat-links, .search-container {
+  display: flex;
+  height: 100%;
+  gap: 1rem;
+  align-items: center;
+}
+.navbar-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  height: 100%;
+
+}
+
+/* Navbar-brand is for the logo/app title in the navbar */
+.navbar-brand {
+  padding-left: 1rem;
+  color: var(--intera);
+  transition: all .1s ease-in;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.navbar-brand:hover {
+  color: var(--accent);
+}
+
+.nav-link {
+  color: var(--intera);
+  text-decoration: none;
+  font-size: 1rem;
+}
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.nav-log-btn {
+  background-color: var(--intera);
+  color: var(--darkc);
+  font-weight: 600;
+  font-size: 1.18rem;
+  text-decoration: none;
+  border-style: none;
+  border-radius: 8px;
+  padding: 12px 1.75rem 12px 1.75rem;
+  margin-right: 1rem;
+}
+.nav-log-btn:hover{
+  background-color: var(--accentd);
+  color: white;
+  cursor: pointer
+}
+
+/* THIS IS FOR THE SEARCH AND LOGIN BUTTONS - THIS LOOKS BAD ALREADY SO THIS NEEDS FIXING*/
+.form-inline {
+  padding-right: 40px;
+}
+
+.recipe-search {
+  display: flex;
+  width: 100%;
+}
+
+/* search form is the text input field */
+.search-form {
+  border: solid #dee2e6 1px;
+  padding: 0.375rem 0.75rem;
+  line-height: 24px;
+  width: 28vw;
+  min-width: 300px;
+}
+.search-form::placeholder{
+  color: rgb(89, 92, 95);
+}
+.search-form:focus {
+  box-shadow: 0 0 1px 1px var(--accentd);
+  border-style: none;
+  outline: none;
+  margin-right: 1px;
+}
+.search-recipe-btn {
+  background-color: var(--intera);
+  color: var(--darkc);
+  border-radius: 8px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  transition: all .1s ease-in;
+  border-style: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.search-recipe-btn:hover {
+  background-color: var(--accentd);
+  color: white;
+}
+
+.search-dropdown {
+  border: solid #dee2e6 1px;
+  padding: 0.375rem 0.75rem
+  line-height: 24px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}

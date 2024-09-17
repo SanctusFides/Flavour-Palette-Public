@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title th:text="${recipe.recipeName}" ></title>
+    <meta name="description" content="recipe details" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../css/recipe.css}" />
+    <script type="text/javascript" th:src="@{/javascript/view-recipe.js}" defer></script>
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous" type="text/javascript"></script>
+</head>
+
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+        <div th:unless="${loginId}" th:remove="tag">
+            <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="rec-card two-rem-top-gap">
+            <div class="rec-card-body">
+                <div class="rec-card-top">
+                    <div class="rec-card-top-left">
+                        <div class="rec-card-title-body">
+                            <h1 class="rec-card-title" th:text="${recipe.recipeName}">
+                                Recipe Name
+                            </h1>
+                        </div>
+                        <div class="rec-edit" th:if="${authorRights} == true" >
+                            <form th:attr="action=@{'/edit/' + ${recipe.recipeId}}" method="GET">
+                                <button type="submit" class="black-btn">Edit Recipe</button>
+                            </form>
+
+                            <form th:attr="action=@{'/deleteRecipe/' + ${recipe.recipeId}}" method="POST">
+                                <button type="submit" class="black-btn">Delete Recipe</button>
+                            </form>
+                        </div>
+                        <div th:unless="${loginId}" th:remove="tag">
+                            <div class="user-options">
+                                <div class="user-options-content">
+                                    <a class="rec-login-btn-google" th:href="@{/login}" type="button">Log in to rate and fave</a>
+                                </div>
+                                <div class="user-options-or">
+                                    <h4>OR</h4>
+                                </div>
+                                <div class="user-options-content">
+                                    <a class="rec-login-btn-google" th:href="@{/signup}" type="button">Sign up now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <form th:if="${loginId}" th:attr="action=@{/saveUserRecipe}" method="POST">
+                            <label for="favorited">Mark as favorite</label>
+                            <input
+                                    class="rec-save-rating"
+                                    type="checkbox"
+                                    th:checked="${userFavorite}"
+                                    name="favorited"
+                                    id="favorited"
+                            />
+                            <div class="rec-star-rating" id="starfield">
+                                <input
+                                        type="radio"
+                                        th:field="${userRecipe.rating}"
+                                        id="star-a"
+                                        value="5"
+                                />
+                                <label for="star-a"></label>
+                                <input
+                                        type="radio"
+                                        th:field="${userRecipe.rating}"
+                                        id="star-b"
+                                        value="4"
+                                />
+                                <label for="star-b"></label>
+                                <input
+                                        type="radio"
+                                        th:field="${userRecipe.rating}"
+                                        id="star-c"
+                                        value="3"
+                                />
+                                <label for="star-c"></label>
+                                <input
+                                        type="radio"
+                                        th:field="${userRecipe.rating}"
+                                        id="star-d"
+                                        value="2"
+                                />
+                                <label for="star-d"></label>
+                                <input
+                                        type="radio"
+                                        th:field="${userRecipe.rating}"
+                                        id="star-e"
+                                        value="1"
+                                />
+                                <label for="star-e"></label>
+                            </div>
+                            <button type="submit" class="rec-login-btn-google">Save</button>
+                            <div th:if="${SaveReviewError}" th:remove="tag">
+                                <h3 style="color:red;">Error - Try Again</h3>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="rec-card-top-right">
+                        <div class="rec-card-image">
+                            <div th:if="${thumbURL}" class="rec-card-img">
+                                <div class="image-thumbnail">
+                                    <img th:src="${thumbURL}" id="imageThumbnail" class="image-thumbnail" alt="recipe image thumbnail" />
+                                </div>
+                                <div id="imageModal" class="image-modal" hidden>
+                                    <div class="modal-body">
+                                        <img th:src="${imageURL}" id="modalImage" class="modal-image" alt="recipe image fullsize">
+                                        <a th:href="${imageURL}" class="full-size-image-link" target="_blank">View full image</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rec-card-bottom">
+                    <div class="rec-card-times two-rem-top-gap">
+                <span class="rec-card-time"
+                        th:utext="'&lt;strong&gt; Prep Time: &lt;/strong&gt;' + ${recipe.prepTime}"></span>
+                        <span class="rec-card-time"
+                                th:utext="'&lt;strong&gt; Cook Time: &lt;/strong&gt;' + ${recipe.cookTime}">
+                        </span>
+                        <span class="rec-card-time"
+                                th:utext="'&lt;strong&gt; Total Time: &lt;/strong&gt;' + ${recipe.totalTime}">
+                        </span>
+                    </div>
+                    <div>
+                        <p class="rec-card-section">Description</p>
+                        <p th:text="${recipe.description}"></p>
+                    </div>
+                    <div th:if="${ingrList}" th:object="${ingrList}">
+                        <p class="rec-card-section">Ingredients</p>
+                        <ul th:each="ingredient, stat : ${ingrList.ingredientList}">
+                            <li th:if="${ingredient.size} != 'None'" th:utext=" '&lt;strong&gt; ' + ${ingredient.quantity} + ' ' + ${ingredient.size} + ' ' + ${ingredient.name} + '&lt;/strong&gt;' + ' ' + ${ingredient.prepType} "></li>
+                            <li th:if="${ingredient.size} == 'None'" th:utext=" '&lt;strong&gt; ' + ${ingredient.quantity} +  ' ' + ${ingredient.name} + '&lt;/strong&gt;' + ' ' + ${ingredient.prepType} "></li>
+                        </ul>
+                    </div>
+                    <div th:if="${instrList}" th:object="${instrList}">
+                        <p class="rec-card-section">Instructions</p>
+                        <p th:each="instruction, iterStat : ${instrList.instructionList}"
+                           th:utext="'&lt;strong&gt;' + ${iterStat.count} + '. &lt;/strong&gt;' + ${instruction.stepText}"
+                           class="rec-card-instruction"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

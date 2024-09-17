@@ -1,0 +1,17 @@
+/* SEARCH PAGE STYLING GROUPED BELOW */
+.search-content {
+  padding-left: 2rem;
+  width: 100%;
+}
+.search-result-header {
+  margin-bottom: 2rem;
+}
+
+.search-result-header > h3 {
+  font-size: 2rem;
+}
+
+.search-result-figure {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}

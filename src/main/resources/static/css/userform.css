@@ -1,0 +1,208 @@
+.form-body-border {
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  padding: 1.5rem;
+  border: solid var(--accentd) 1px;
+  border-radius: 8px;
+ }
+
+.userform-contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 35%;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: var(--darkc);
+  color: white;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  gap: 1rem;
+}
+.form-body > h1,h4 {
+  display: flex;
+  justify-content: center;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field-box {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.name {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.password {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.save {
+  display: flex;
+  justify-content: center;
+}
+
+.border {
+  border-top: 1px solid var(--accent);
+}
+
+.save-btn{
+  border-radius: .5rem;
+  padding: .8rem 1rem .8rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.google-login{
+    display: flex;
+    justify-content: center;
+    border-top:
+}
+.google-btn {
+  display: flex;
+  background-color: white;
+  border-radius: 4px;
+  border: solid lightgray 1px;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 14px;
+  height: 40px;
+  width: 177px;
+}
+.google-login > a:link {
+  color: rgb(60, 64, 72);
+  font-family: 'Product Sans', sans-serif;
+  text-decoration: none;
+}
+.google-btn:hover {
+  background-color: rgb(247, 250, 255);
+  border: solid rgb(202, 223, 255) 1px;
+}
+.google-btn-icon {
+  display:block;
+  height: 18px;
+  width: 18px;
+}
+.account-buttons {
+  display:flex;
+}
+
+.form-dlt-btn {
+  background-color: rgb(172,26,26);
+  color: white;
+  font-weight: 600;
+  font-size: 1.18rem;
+  text-decoration: none;
+  border-style: none;
+  border-radius: 8px;
+  padding: 12px 1.75rem 12px 1.75rem;
+  margin-right: 1rem;
+}
+.form-dlt-btn:hover {
+  background-color: var(--accentd);
+  color: white;
+  cursor: pointer;
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 28%;
+  gap: 1rem;
+  margin: 15% auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: var(--darkc);
+  color: white;
+}
+.modal-header {
+  color: white;
+}
+
+.modal-close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-delete-btn{
+  display:flex;
+  align-self: center;
+}
+
+.form-modal-dlt-btn {
+  background-color: rgb(172,26,26);
+  color: white;
+  font-weight: 600;
+  font-size: 1.18rem;
+  text-decoration: none;
+  border-style: none;
+  border-radius: 8px;
+  padding: 12px 1.75rem 12px 1.75rem;
+  margin-right: 1rem;
+}
+
+.model-txt {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-update-name{
+  display:flex;
+  gap: 1rem;
+}
+
+.form-password {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-update-password {
+  display: none;
+}
+
+.google-error {
+  display: none;
+  color: rgb(172,26,26);
+}

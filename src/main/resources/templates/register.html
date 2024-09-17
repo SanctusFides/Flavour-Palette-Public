@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Flavour Palette</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/userform.css}" />
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+    <title>Login</title>
+</head>
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+        <div th:unless="${loginId}">
+            <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="page-contents">
+            <div class ="userform-contents two-rem-top-gap">
+                <div class = "form-body">
+                    <h1>Create Account</h1>
+                    <div th:if="${loginId}" th:remove="tag">
+                        <h5 th:text="'You are currently logged in as ' +${loginId}" style="color:red;"></h5>
+                    </div>
+                    <form th:action="@{/register}" th:object="${regDetail}" method="POST" class="form-box">
+                        <div class = "field-box">
+                            <div class = "name">
+                                <label class="form-label" for="username">Email</label>
+                                <input th:field="*{username}" type="email" class="form-name" placeholder="example@demo.com"
+                                       id="username" name="username"
+                                       th:required="required" />
+                                <div th:if="${UserError}" th:remove="tag">
+                                    <h5 style="color:red;">This email is already in use</h5>
+                                </div>
+                            </div>
+                            <div class="password">
+                                <label class="form-label" for="password">Password</label>
+                                <input th:field="*{password}" type="password" class="form-pass"
+                                       id="password" name="password" />
+                            </div>
+                        </div>
+                        <div class="save">
+                            <button type="submit" class="green-btn-dark save-btn">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="border"></div>
+                    <div class="google-login">
+                        <a th:href="@{/google-login}">
+                            <div class="google-btn">
+                                <img th:src="@{../images/google-logo.svg}" class="google-btn-icon" alt="Google Sign In Icon"/>
+                                <p class="google-text">Sign in with Google</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+
+</html>

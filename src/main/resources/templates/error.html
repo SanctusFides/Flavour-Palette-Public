@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Flavour Palette - Error</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+        <div th:unless="${loginId}">
+            <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="two-rem-top-gap favorites-content">
+            <div class="favorites">
+                <h1>Error</h1>
+                <div th:if="${RecipeNotFound}" th:remove="tag">
+                    <h3 style="color:red;">The recipe you are looking for is not available, please check the url or use the search to find a recipe</h3>
+                    <div class="plat-search">
+                        <div th:insert="~{components/recipe-search :: search-panel}"></div>
+                    </div>
+                </div>
+                <div th:if="${PageNotFound}" th:remove="tag">
+                    <h3 style="color:red;">Page Not Found</h3>
+                    <h4 style="color:red;">Check the url or use the search to browse recipes</h4>
+                    <div class="plat-search">
+                        <div th:insert="~{components/recipe-search :: search-panel}"></div>
+                    </div>
+                </div>
+                <div th:if="${CloudinaryError}" th:remove="tag">
+                    <h3 style="color:red;">There was an error deleting image - please contact an admin with details about this trouble</h3>
+                    <div class="plat-search">
+                        <div th:insert="~{components/recipe-search :: search-panel}"></div>
+                    </div>
+                </div>
+                <div th:if="${CloudinaryError}" th:remove="tag">
+                    <h3 style="color:red;">There was an error saving to Favorites - please contact an admin with details about this trouble</h3>
+                    <div class="plat-search">
+                        <div th:insert="~{components/recipe-search :: search-panel}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

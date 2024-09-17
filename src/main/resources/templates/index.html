@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Flavour Palette</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <title>Flavour Palette</title>
+</head>
+<body>
+    <header>
+        <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+    </header>
+    <main>
+        <div class="plat-content">
+            <h1 class="plat-name">Flavour Palette</h1>
+            <p class="plat-text">Refine and design your own Flavour Palette.
+                <br>Save your favorite recipes and make shopping easier
+            </p>
+            <div class="login-via-btn">
+                <a button type="button" th:href="@{/login}" class="login-btn-google">Login with Google</a>
+            </div>
+            <div class="plat-text">
+                <p>Or search for a recipe to get started!</p>
+            </div>
+            <div class="plat-search">
+                <div th:insert="~{components/recipe-search :: search-panel}"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+
+    <!--suppress ALL -->
+    <nav class="nbar">
+      <div class="navbar-left">
+        <a class="navbar-brand" href="/">Flavour Palette</a>
+
+        <ul class="flat-links">
+          <li> <a class="nav-link" th:href="@{/favorites}">Favorites</a> </li>
+          <li> <a class="nav-link" th:href="@{/user-recipes}">My Recipes</a> </li>
+          <li> <a class="nav-link" th:href="@{/create-recipe}">Add Recipe</a> </li>
+        </ul>
+      </div>
+      <div  class="navbar-mid" th:insert="~{components/recipe-search.html :: search-panel}"></div>
+      <div class="navbar-right">
+          <ul class="flat-links">
+              <li> <a class="nav-link" th:href="@{/account}">Account</a> </li>
+          </ul>
+        <div class="logout-btn">
+          <form th:action="@{/logout}" method="post">
+            <button class="nav-log-btn">Logout</button>
+          </form>
+        </div>
+      </div>
+    </nav>

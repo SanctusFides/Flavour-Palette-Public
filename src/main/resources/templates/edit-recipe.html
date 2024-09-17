@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!--suppress XmlDuplicatedId -->
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Edit Recipe</title>
+    <meta name="description" content="edit recipe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/create.css}" />
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+    <script th:src="@{../../javascript/edit-recipe.js}" defer></script>
+</head>
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+        <div th:unless="${loginId}">
+            <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="two-rem-top-gap content">
+            <h1>Edit Recipe</h1>
+            <form th:action="@{'/editRecipe/' + ${formDTO.recipeId}}" class="recipe-form spacer" th:object="${formDTO}" enctype="multipart/form-data" name="formData" method="POST">
+                <div class="name">
+                    <label class="form-label" for="recipeName">Recipe Name</label>
+                    <input type="text" name="recipeName" id="recipeName" class="form-name" aria-label="Name" th:value="*{recipeName}"
+                           th:placeholder="*{recipeName}" />
+                </div>
+                <div class="time">
+                    <p class="form-label">Enter your prep and cook times in minutes, they are added together for
+                        the total time for this recipe</p>
+                    <div class="times">
+                        <div class="prep-time">
+                            <label for="prepTime">Prep Time</label>
+                            <input th:field="*{prepTime}" type="number" class="form-time"  id="prepTime" required/>
+                        </div>
+                        <div class="cook-time">
+                            <label for="cookTime">Cook Time</label>
+                            <input th:field="*{cookTime}" type="number" class="form-time" id="cookTime" required/>
+                        </div>
+                        <div class="total-time" id="totalTime">
+                            <label for="total-input">Total Time</label>
+                            <input type="number" value="0" disabled class="form-time" id="total-input" />
+                        </div>
+                    </div>
+                </div>
+                <div class="desc">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea th:field="*{description}" class="form-desc" id="description" rows="3"
+                              placeholder="Recipe Description"></textarea>
+                </div>
+                <div class="image-section">
+                    <label class="form-label" for="imageDiv">Edit Photo</label>
+                    <div class="image-div" id="imageDiv">
+                        <div th:unless="*{imageId}" class="no-image" id="noImageDiv">
+                            <input type="file" name="image" accept="image/*" id="image">
+                        </div>
+                        <div th:if="*{imageId}" class="image" id="imageBody">
+
+                            <img th:src="*{imageId}" th:field="*{imageId}" id="image-preview" alt="recipe image preview">
+                            <div>
+                                <button type="button" class="rmv-ingr" onclick="removeImage()">Remove Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ingredients border">
+                    <p class="form-ingredient-title form-label">Edit Ingredients</p>
+                    <div th:if="${ingrList}" th:object="${ingrList}">
+                        <input type="hidden" name="ingrCount" id="ingrCount" th:value="${#lists.size(ingrList.ingredientList)}">
+                        <div th:each="ingredient, stat : ${ingrList.ingredientList}" th:remove="tag">
+                            <div class="ingredient border-bottom" th:id="'ingr-'+${stat.index+1}">
+                                <label class="form-ingr-label spacer">
+                                    Name
+                                    <input type="text" name="ingrName" th:field="${ingrList.ingredientList[__${stat.index}__].name}"
+                                           th:value="${ingrList.ingredientList[__${stat.index}__].name}" placeholder="Ingredient Name"
+                                           class="form-ingredient-name" required pattern="^\S.*$" title="Name cannot start with a Space"/>
+                                </label>
+                                <div class="form-ingredient-multi">
+                                    <div class="form-ingredient-qty-div">
+                                        <label class="form-ingr-label">
+                                            Quantity
+                                        <input type="text" name="ingrQty" th:field="${ingrList.ingredientList[__${stat.index}__].quantity}"
+                                               th:value="${ingrList.ingredientList[__${stat.index}__].quantity}" placeholder="Qty"
+                                               class="form-ingredient-qty" required pattern="^\S.*$" title="Quantity cannot start with a Space"/>
+                                        </label>
+                                    </div>
+                                    <div class="form-ingredient-size-div">
+                                        <label class="form-ingr-label">
+                                            Size (Optional)
+                                            <select name="ingrSize" class="form-ingredient-size" th:field="${ingrList.ingredientList[__${stat.index}__].size}">
+                                                <div th:if="${ingrList.ingredientList[__${stat.index}__].size} == 'None'" th:remove="tag">
+                                                    <option value="None">Size (Optional)</option>
+                                                </div>
+                                                <div th:unless="${ingrList.ingredientList[__${stat.index}__].size} == 'None'" th:remove="tag">
+                                                    <option value="None">None</option>
+                                                </div>
+                                                <option value="Teaspoons">Teaspoons</option>
+                                                <option value="Tablespoons">Tablespoons</option>
+                                                <option value="Cups">Cups</option>
+                                                <option value="Ounces">Ounces</option>
+                                                <option value="Pints">Pints</option>
+                                                <option value="Quarts">Quarts</option>
+                                                <option value="Gallons">Gallons</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-ingredient-prep-div">
+                                        <label class="form-ingr-label">
+                                            Prep Info (Optional)
+                                            <input type="text" name="ingrPrep" th:field="${ingrList.ingredientList[__${stat.index}__].prepType}"
+                                                   th:value="${ingrList.ingredientList[__${stat.index}__].prepType}"
+                                                   placeholder="(ex: minced, diced...)" class="form-ingredient-prep" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-ingr" id="addIngrBtn" onclick="addIngr()" type="button">
+                    Add Ingredient
+                </button>
+                <div class="instructions border">
+                    <p class="form-ingredient-title form-label">Edit Instructions</p>
+                    <div th:if="${instrList}" th:object="${instrList}" th:remove="tag">
+                        <input type="hidden" name="stepCount" id="stepCount" th:value="${#lists.size(instrList.instructionList)}">
+                        <div th:each="instruction, stat : ${instrList.instructionList}" th:remove="tag">
+                            <div th:if="${stat.index == 0}" class="instruction border-bottom" th:id="'step-'+${stat.index+1}">
+                                <label class="form-label" name="step-label">
+                                    <span class="step-label-span" th:text="'Enter instructions for Step '+${stat.index+1}"></span>
+                                    <textarea th:field="${instrList.instructionList[__${stat.index}__].stepText}"
+                                              th:text="${instrList.instructionList[__${stat.index}__].stepText}" name="stepText"
+                                              class="form-desc-first stepText" required></textarea>
+                                </label>
+                            </div>
+                            <div th:unless="${stat.index == 0}" class="instruction border-bottom" th:id="'step-'+${stat.index+1}">
+                                <label class="form-label" name="step-label">
+                                    <span class="step-label-span" th:text="'Enter instructions for Step '+${stat.index+1}"></span>
+                                    <textarea th:field="${instrList.instructionList[__${stat.index}__].stepText}"
+                                              th:text="${instrList.instructionList[__${stat.index}__].stepText}" name="stepText"
+                                              class="form-desc spacer-bottom stepText" required></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${instrList == null}" th:object="${instrList}">
+                        <input type="hidden" name="stepCount" id="stepCount">
+                        <div th:each="instruction, stat : ${instrList}" th:remove="tag">
+                            <div class="instruction border-bottom" th:id="'step-'+${stat.index+1}">
+                                <label class="form-label" name="step-label">
+                                    <span class="step-label-span" th:text="'Enter instructions for Step '+${stat.index+1}"></span>
+                                    <textarea th:field="${instrList.instructionList[__${stat.index}__].stepText}"
+                                              th:text="${instrList.instructionList[__${stat.index}__].stepText}" name="stepText"
+                                              class="form-desc stepText" required></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-instr" id="addStepBtn" onclick="addStep()" type="button">Add a Step</button>
+                <div class="save spacer">
+                    <button type="submit" class="green-btn-dark save-btn">Save Edits</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

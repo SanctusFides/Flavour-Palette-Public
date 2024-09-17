@@ -1,0 +1,286 @@
+/* I do my best to group individual sections within commented sections but there will always be some crossover
+   Please try to search for what you are looking for - I attempt to name things in logical ways but overlap in ideas can happen
+   I am really big on hyphens so get strapped in
+   Constants to look for buttons = btn | rec = recipe | result != search, just means requested data returned
+   I am always open to suggestions as well so please feel free to contact me on how I may improve something jhn.hines@gmail.com  */
+
+/* 4 colors to use across the app. This is the theory of their uses, there should be minimal non-var use of colors
+this is important to maintain to make color swapping possible and painless */
+
+/* MARKING ALL POSITIONS WHITE COLOR IS USED FOR FONTS - it is NOT set as var. Keep updated and make choice in future
+    - .nav-login-btn:hover
+    - .login-btn-google
+    - .search-recipe-btn:hover
+*/
+
+:root {
+  /* Lightc is light color -currently being used for background
+     Darkc is dark colors - currently being used for secondary such as nav bar and buttons */
+  --lightc: rgb(250, 239, 224);
+  --darkc: rgb(33, 37, 41);
+  --accent: rgb(255, 92, 155);
+  --accentd: rgb(204, 73, 124);
+  --intera: aquamarine;
+  /* interactive bold is used for things like small teal objects that have too little contrast - bolder just helps it be seen*/
+  --interab: rgb(0, 255, 170);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  box-sizing: inherit;
+}
+
+/* Body is set to flex with column so that the footer can be kept at bottom */
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--lightc);
+  min-height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+/* Main here set to flex-grow 1 so that it keeps the footer at the bottom */
+main {
+  flex-grow: 1;
+}
+
+ul {
+  list-style-type: none;
+}
+
+/* Gaps are used to throw onto classes that need some extra spacing */
+.bottom-gap {
+  margin-bottom: .5rem;
+}
+.two-rem-top-gap {
+  margin-top: 2rem;
+}
+.one-rem-top-gap {
+  margin-top: 1rem;
+}
+
+
+/* BUTTON SCHEMA - setting button coloring to reuseable format */
+.green-btn {
+  background-color: var(--intera);
+  color: var(--darkc);
+  border-style: none;
+  font-weight: 600;
+}
+.green-btn:hover {
+  background-color: var(--accent);
+  color: white
+}
+/* MAKING GREEN BUTTON DARK TO HOLD DARK ACCENT COLOR FOR BUTTONS USED ON CREAM BACKGROUND */
+.green-btn-dark {
+  background-color: var(--intera);
+  color: var(--darkc);
+  border-style: none;
+  font-weight: 600;
+}
+.green-btn-dark:hover {
+  background-color: var(--accentd);
+  color: white
+}
+
+/* Black Button is for small buttons on recipe page etc */
+.black-btn {
+  border-radius: 6px;
+  border-style: none;
+  background-color: var(--darkc);
+  color: white;
+  padding: 6px 10px;
+  font-weight: 600;
+  transition: all .1s;
+  text-decoration: none;
+}
+.black-btn:hover {
+  background-color: var(--accentd);
+}
+
+
+/* Login via Google button used in center of guest homepage(index.html) */
+.login-btn-google {
+  border-radius: 8px;
+  border: solid var(--darkc) 3px;
+  background-color: var(--darkc);
+  color: white;
+  padding: 1rem;
+  font-weight: 600;
+  transition: all .1s;
+  text-decoration: none;
+}
+.login-btn-google:hover {
+  border: solid var(--accent) 3px;
+}
+
+
+/* plat content, name, text and search containers for the respective name pieces.
+   content holds name(direct h1), black login button, the text and the search container (holds text input and search btn)   */
+.plat-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 12%;
+}
+.plat-name {
+  text-align: center;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: .5rem;
+}
+
+.plat-text {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 3rem;
+}
+.plat-search {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+.login-via-btn {
+  margin-bottom: 3rem;
+}
+
+/* this is the boiler platform styling for logged in home.html or anywhere else needed */
+/* IS THIS NEEDED */
+/* IS THIS NEEDED - put twice so that don't miss rethinking this once I get both pages reworked*/
+.boiler-plat {
+  text-align: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* THIS CSS SECTION IS RELATED TO THE FAVORITES DISPLAYED ON THE LOGGED IN HOME PAGE */
+.home-favorites{
+  padding-left: 2rem;
+}
+.favorites {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.favorites-content {
+  padding-left: 2rem;
+}
+.favorites-cards, .search-results {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .8rem;
+  width: 100%;
+  padding-right: 1.375rem;
+}
+/* USING THIS FORMAT ALSO ON SEARCH RESULTS - CHANGED ALL TAGS FROM fav-card- to result-card- */
+/* THIS IS THE FAVORITE RECIPES ON THE LOGGED IN USER home.html AND favorites.html */
+/* not actually favorites page - just the "Favorite Recipes" text on home.html */
+.favorites > h3 > a {
+  font-size: 2rem;
+  text-decoration: none;
+  color: var(--darkc);
+}
+/* This is for the "My Recipes" text on /user-recipes - this makes it match the formatting as Favorites */
+.user-recipes > h3 {
+  font-size: 2rem;
+  text-decoration: none;
+  color: var(--darkc);
+  margin-bottom: 1rem;
+}
+/* These result cards are staying in the general styling css file since they are a platform wide element */
+.result-card {
+  background: var(--darkc);
+  color: white;
+  border: solid lightgray 1px;
+  padding: .5rem 1rem;
+  border-radius: 8px;
+  height: 12rem;
+}
+.result-card > a {
+  text-decoration: none;
+}
+
+.result-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+}
+.result-card-title {
+  font-size: 2rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+.result-card-time {
+  color: white;
+}
+.result-card-desc {
+  color: var(--intera);
+}
+
+/* This is targetting the star ratings on the favorites only */
+.result-rating > p > span {
+  color: var(--accent);
+}
+
+/* The below is related to the star icons for ratings and displaying them in the correct order */
+@-moz-document url-prefix(0) {
+  .star-rating input:checked~label:before {
+    font-size: 36px;
+    line-height: 21px;
+  }
+}
+.rec-star-rating {
+  display: flex;
+  align-items: center;
+  width: 160px;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+}
+.rec-star-rating input {
+  display: none;
+}
+.rec-star-rating>label {
+  width: 30px;
+  height: 30px;
+  font-family: Verdana;
+  font-size: 30px;
+  color: var(--accentd);
+}
+.rec-star-rating label:before {
+  content: '\2606';
+  position: absolute;
+  line-height: 26px;
+}
+.rec-star-rating input:checked~label:before {
+  content: '\2605';
+}
+/* FOOTER SETTINGS */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  font-size: 20px;
+  background-color: var(--accentd);
+  color: white;
+  min-height: 2.25rem;
+}
+.fa-github {
+  color: white;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
+}

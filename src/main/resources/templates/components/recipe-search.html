@@ -1,0 +1,35 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+        <div  th:fragment="search-panel">
+            <form th:attr="action=@{/search}" class="search-container">
+                <div th:if="${prevSearch}" th:remove="tag">
+                    <div th:if="${prevCategory == 'R'}" class="recipe-search">
+                        <label for="rec-category" hidden>Search Category</label>
+                        <select name="c" th:value="${prevCategory}" class="search-dropdown" id="rec-category">
+                            <option value="R" selected>Recipes</option>
+                            <option value="I">Ingredients</option>
+                        </select>
+                        <input type="text" name="q" class="search-form" th:value="${prevSearch}" th:placeholder="${prevSearch}" aria-label="Search query">
+                        <button type="submit" class="search-recipe-btn">Search</button>
+                    </div>
+                    <div th:if="${prevCategory == 'I'}" class="recipe-search">
+                        <label for="ingr-category" hidden>Search Category</label>
+                        <select name="c" th:value="${prevCategory}" class="search-dropdown" id="ingr-category">
+                            <option value="R">Recipes</option>
+                            <option value="I" selected>Ingredients</option>
+                        </select>
+                        <input type="text" name="q" class="search-form" th:value="${prevSearch}" th:placeholder="${prevSearch}" aria-label="Search query">
+                        <button type="submit" class="search-recipe-btn">Search</button>
+                    </div>
+                </div>
+                <div th:unless="${prevSearch}" class="recipe-search">
+                    <label for="category" hidden>Search Category</label>
+                    <select name="c" class="search-dropdown" id="category">
+                        <option value="R">Recipes</option>
+                        <option value="I">Ingredients</option>
+                    </select>
+                    <input type="text" name="q" class="search-form" placeholder="Search Recipes" aria-label="Search query">
+                    <button type="submit" class="search-recipe-btn">Search</button>
+                </div>
+            </form>
+        </div>
+</html>

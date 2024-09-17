@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Recipe Details</title>
+    <meta name="description" content="recipe details">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/create.css}" />
+    <script th:src="@{../../javascript/create-recipe.js}" defer></script>
+</head>
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+        <div th:unless="${loginId}">
+            <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="two-rem-top-gap content">
+            <div th:if="${loginId}" th:remove="tag">
+                <div class="form-container">
+                    <h3>Add Recipe</h3>
+                    <form th:action="@{/createRecipe}" th:object="${recipe}" method="POST" enctype="multipart/form-data" name="formData" class="recipe-form">
+                        <div th:if="${#strings.equals(error, 'recipeName')}" th:remove="tag">
+                            <h5 style="color:red;">Please ensure Recipe Name is entered</h5>
+                        </div>
+                        <div th:if="${#strings.equals(error, 'prepTime')}" th:remove="tag">
+                            <h5 style="color:red;">Please ensure Prep Time is entered</h5>
+                        </div>
+                        <div th:if="${#strings.equals(error, 'cookTime')}" th:remove="tag">
+                            <h5 style="color:red;">Please ensure Cook Time is entered</h5>
+                        </div>
+                        <div th:if="${#strings.equals(error, 'description')}" th:remove="tag">
+                            <h5 style="color:red;">Please ensure Description is entered</h5>
+                        </div>
+                        <div class="name">
+                            <label class="form-label" for="recipeName">Recipe Name</label>
+                            <input th:field="*{recipeName}" type="text" class="form-name" placeholder="Recipe Name"
+                                id="recipeName" name="recipeName" required />
+                        </div>
+                        <div class="time">
+                            <p class="form-label">Enter your prep and cook times in minutes, they are added together for
+                                the total time for this recipe</p>
+                            <div class="times">
+                                <div>
+                                    <label for="prepTime">Prep Time</label>
+                                    <input th:field="*{prepTime}" type="number" class="form-time"
+                                        placeholder="0" id="prepTime" min="0" value="0" required/>
+                                </div>
+                                <div>
+                                    <label for="cookTime">Cook Time</label>
+                                    <input th:field="*{cookTime}" type="number" class="form-time"
+                                        placeholder="0" id="cookTime" min="0" value="0" required/>
+                                </div>
+                                <div id="totalTime">
+                                    <label for="total-input">Total Time</label>
+                                    <input type="number" value="0" disabled class="form-time" id="total-input"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea th:field="*{description}" class="form-desc" id="description" rows="3"
+                                placeholder="Recipe Description" required></textarea>
+                        </div>
+                        <div class="image-section">
+                            <label class="form-label" for="image">Upload Photo</label>
+                            <input type="file" name="image" accept="image/*" id="image" >
+                        </div>
+                        <div class="ingredients border">
+                            <input type="hidden" name="ingrCount" id="ingrCount" value="1">
+                            <p class="form-ingredient-title form-label">Enter Ingredients</p>
+                            <div th:object="${ingrList}" th:remove="tag">
+                                <div th:each="ingredient, stat : ${ingrList}" th:remove="tag">
+                                    <div class="ingredient" id="ingr-1">
+                                        <label class="form-ingr-label spacer">
+                                            Name
+                                            <input type="text" name="ingrName" th:field="${ingrList.ingredientList[__${stat.index}__].name}" placeholder="Ingredient Name" class="form-ingredient-name" required id="ingr">
+                                        </label>
+                                        <div class="form-ingredient-multi">
+                                            <div class="form-ingredient-qty-div">
+                                                <label class="form-ingr-label">
+                                                    Quantity
+                                                    <input type="text" id="qty" class="form-ingredient-qty" th:field="${ingrList.ingredientList[__${stat.index}__].quantity}" placeholder="Qty" name="ingrQty" required>
+                                                </label>
+                                            </div>
+                                            <div class="form-ingredient-size-div">
+                                                <label class="form-ingr-label">
+                                                    Size (Optional)
+                                                    <select th:field="${ingrList.ingredientList[__${stat.index}__].size}" name="ingrSize" class="form-ingredient-size">
+                                                        <option selected value="None">Size (Optional)</option>
+                                                        <option value="Teaspoons">Teaspoons</option>
+                                                        <option value="Tablespoons">Tablespoons</option>
+                                                        <option value="Cups">Cups</option>
+                                                        <option value="Ounces">Ounces</option>
+                                                        <option value="Pints">Pints</option>
+                                                        <option value="Quarts">Quarts</option>
+                                                        <option value="Gallons">Gallons</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                            <div class="form-ingredient-prep-div">
+                                                <label class="form-ingr-label">
+                                                    Prep Info (Optional)
+                                                    <input type="text" th:field="${ingrList.ingredientList[__${stat.index}__].prepType}" name="ingrPrep" class="form-ingredient-prep"
+                                                           placeholder="(ex: minced, diced...)">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-ingr" id="addIngrBtn" onclick="addIngr()" type="button">Add
+                            Ingredient
+                        </button>
+                        <div class="instructions border">
+                            <div th:object="${instructionList}" th:remove="tag">
+                                <input type="hidden" name="stepCount" id="stepCount" value="1">
+                                <div th:each="instruction, stat : ${instrList}" th:remove="tag">
+                                    <div class="instruction spacer-bottom" id="step-1">
+                                        <label class="form-label" id="step-label" name="step-label">
+                                            <span class="step-label-span" th:text="'Enter instructions for Step '+${stat.index+1}"></span>
+                                            <textarea th:field="${instrList.instructionList[__${stat.index}__].stepText}" class="form-desc stepText" required></textarea>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-instr" id="addStepBtn" onclick="addStep()" type="button">Add a Step</button>
+                        <div class="save">
+                            <button type="submit" class="green-btn-dark save-btn">Save Recipe</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

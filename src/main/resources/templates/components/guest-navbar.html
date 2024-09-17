@@ -1,0 +1,14 @@
+
+    <!--suppress ALL -->
+    <nav class="nbar">
+      <div class="navbar-left">
+        <a class="navbar-brand" href="/">Flavour Palette</a>
+      </div>
+
+      <div  class="navbar-mid" th:insert="~{components/recipe-search.html :: search-panel}"></div>
+
+      <div class="navbar-right">
+        <a type="button" th:href="@{/signup}" class="nav-log-btn">Sign Up</a>
+        <a type="button" th:href="@{/login}" class="nav-log-btn">Log In</a>
+      </div>
+    </nav>

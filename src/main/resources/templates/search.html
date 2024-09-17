@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Search Results</title>
+    <meta name="description" content="recipe search results">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/search.css}" />
+</head>
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+        <div th:unless="${loginId}">
+            <div th:insert="~{components/guest-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="two-rem-top-gap search-container">
+            <div class="search-content" th:if="${searchCount} > 0">
+                <div class="search-result-header">
+                    <h3>Search Results</h3>
+                    <p class="search-result-figure" th:text="${searchCount} + ' recipes found'"></p>
+                </div>
+                <div class="search-results">
+                    <div class="result-card" th:each="result: ${searchResult}">
+                        <a th:href="@{'/recipe/' + ${result.recipeId}}">
+                            <div class="result-card-body">
+                                <h5 class="result-card-title" th:text="${result.recipeName}"></h5>
+                                <p class="result-card-time" th:text="'Total Time: ' + ${result.totalTime}"></p>
+                                <p class="result-card-desc" th:text="${result.description}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="search-content" th:if="${searchCount} == 0">
+                <h4> No recipes found for your search, please check the spelling or category and try again</h4>
+                <div th:insert="~{components/recipe-search :: search-panel}"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

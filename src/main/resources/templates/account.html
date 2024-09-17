@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Flavour Palette - Account</title>
+    <meta name="description" content="recipe search results">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/4c536a6bd5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/search.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../../css/userform.css}" />
+    <script th:src="@{../../javascript/account.js}" defer></script>
+
+</head>
+
+<body>
+    <header>
+        <div th:if="${loginId}" th:remove="tag">
+            <div th:insert="~{components/logged-in-navbar}" th:remove="tag"></div>
+        </div>
+    </header>
+    <main>
+        <div class="form-body-border two-rem-top-gap">
+            <div class="rec-card-body">
+                <h1>Account Details</h1>
+                <div>
+                    <div style="display:none;" id="auth-type" th:text="${userData.authType}"></div>
+                    <div class = "field-box">
+                        <div class="form-update-name one-rem-top-gap">
+                            <label class="form-label" for="email">Email</label>
+                            <input th:field="${userData.username}" type="email" class="form-name" disabled="disabled" id="email"/>
+                            <div th:if="${UserError}" th:remove="tag">
+                                <h5 style="color:red;">This email is already in use</h5>
+                            </div>
+                        </div>
+                        <div class="form-password">
+                            <div>
+                                <label class="form-label" for="disabledpass">Password</label>
+                                <input type="password" class="form-norm" disabled="disabled" placeholder="***************" id="disabledpass"/>
+                            </div>
+                            <div>
+                                <button type="button" class="black-btn" id="update-btn">Update</button>
+                            </div>
+                        </div>
+                        <div class="google-error" id="google-error">
+                            <h5>Unable to update password for Google accounts</h5>
+                        </div>
+                        <div th:if="${passMismatch}" th:remove="tag">
+                            <h5 style="color:red;">Passwords did not match, try again</h5>
+                        </div>
+                        <div class="form-update-password" id="update-fields">
+                            <form th:action="@{/update-user}" th:object="${passDTO}" method="POST" enctype="multipart/form-data">
+                                <div>
+                                    <label class="form-label" for="password">New Password</label>
+                                    <input type="password" th:field="*{password}"
+                                           class="form-name" id="password" />
+                                </div>
+                                <div>
+                                    <label class="form-label" for="confirm-password">Repeat Password</label>
+                                    <input type="password" th:field="*{confirmPassword}"
+                                           class="form-name" id="confirm-password" />
+                                </div>
+                                <div class="one-rem-top-gap">
+                                    <button type="submit" class="black-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="account-buttons one-rem-top-gap">
+                    <div class="logout-btn">
+                        <form th:action="@{/logout}" method="post">
+                            <button class="nav-log-btn">Logout</button>
+                        </form>
+                    </div>
+
+                    <div class="delete-btn" id="deleteBtn">
+                        <button class="form-dlt-btn" id="modal-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delete-modal" class="modal">
+            <div class="modal-content" th:object="${userData}">
+                <div class="modal-header">
+                    <span class="modal-close" id="modal-close">&times;</span>
+                    <h2>Confirm To Delete Account</h2>
+                </div>
+                <div class="model-txt">
+                    <p th:text="'Account being deleted: ' + *{username}"></p>
+                    <p>This action cannot be undone</p>
+                    <p>All recipes will be deleted</p>
+                </div>
+                <div class="modal-delete-btn">
+                    <form th:action="@{/delete-user}" method="post">
+                        <button class="form-modal-dlt-btn">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <p>Copyright © 2023 SanctusFides</p>
+        <a href="https://github.com/SanctusFides" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: flavour palette
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE-ID}
+            client-secret: ${GOOGLE-SECRET}
+  datasource:
+    url: ${DATASOURCE-URL}
+    username: ${DATASOURCE-USER}
+    password: ${DATASOURCE-PASS}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.SQLServer2012Dialect

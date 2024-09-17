@@ -1,0 +1,152 @@
+/* SETTINGS FOR THE RECIPE CARD ON THE recipe.html PAGE */
+.rec-card {
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  padding: 1.5rem;
+  border: solid var(--accentd) 1px;
+  border-radius: 8px;
+}
+
+.rec-card-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: .5rem;
+}
+
+.rec-card-top {
+  display: flex;
+  margin-left: 18%;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.rec-card-bottom {
+  margin-left: 18%;
+}
+
+.rec-card-top-left {
+  flex-grow: 1;
+
+}
+.rec-card-top-right {
+ flex-grow: 1;
+ flex-shrink: 1;
+}
+
+/* Recipe images */
+
+.rec-card-img {
+  margin-right: 1.5rem;
+  max-width: 100%;
+}
+.rec-card-img img {
+  border-radius: 8px;
+}
+.image-thumbnail {
+  max-height: 207px;
+}
+.image-thumbnail:hover {
+  opacity: 0.7;
+}
+/* Section for the image modal on the recipe page */
+.image-modal{
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.8);
+}
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.modal-image {
+  margin: auto;
+  display: block;
+  max-width: 900px;
+  max-height: 650px;
+}
+.full-size-image-link {
+  font-size: 1.2rem;
+  color: white;
+}
+/* End of Modal */
+
+.rec-card-title-body {
+  display: flex;
+}
+
+.rec-card-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+/* This text is used for the "Login and Fave!" text, it's too large using the rec-card-title values */
+.rec-login-text{
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+/* a section refers to a sections title text "Description" "Instructions" etc */
+.rec-card-section{
+  margin-top: 1rem;
+  font-weight: 700;
+}
+.rec-card-instruction {
+  margin-bottom: 1rem;
+}
+.rec-card-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 50%;
+  margin-bottom: 1rem;
+}
+.rec-card-time {
+  margin-bottom: 1rem;
+}
+/* The version of the login via google that's sized for the recipe card page */
+.rec-login-btn-google {
+  border-radius: 6px;
+  border-style: none;
+  background-color: var(--darkc);
+  color: white;
+  padding: 6px 10px;
+  font-weight: 600;
+  transition: all .1s;
+  text-decoration: none;
+}
+.rec-login-btn-google:hover {
+  background-color: var(--accentd);
+}
+.rec-save-rating {
+  accent-color: var(--darkc);
+}
+
+.rec-edit {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+
+.user-options {
+  display: flex;
+  flex-direction: column;
+/*
+  align-items: center;
+*/
+  max-height: 55%;
+  gap: .8rem;
+}
+
+.user-options-or {
+  padding-left: 4rem;
+}
