@@ -16,5 +16,5 @@ Requirements to run this app:
   
   - Set in the environment using "CLOUDINARY_URL" as the variable (recommended) or the commented out preset string in the SecurityConstants file
   - Within Cloudinary's Media Explorer, create a folder titled "recipes" where images will be uploaded
-  - Enter your account's image url into the CloudinaryImpl file where the placeholder variable is currently listed as "PLACEHOLDER"
+- Enter your account's image url into the CloudinaryImpl file where the placeholder variable is currently listed as "{PLACEHOLDER}"
     
