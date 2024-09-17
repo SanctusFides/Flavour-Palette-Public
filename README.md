@@ -8,7 +8,8 @@ Requirements to run this app:
   PostgreSQL Database: Required for storing all application objects and user accounts
     - URL and the admin account details are input under the application.yml
 
+  The application.yml file is preloaded with environment variables that can be used or plain text sources can be used to replace them.
+
+
   Cloudinary Account: Required for image hosting
     - Either set in the environment using "CLOUDINARY_URL" as the variable (recommended) or the commented out preset string in the SecurityConstants file 
-    
-  The application.yml file is preloaded with environment variables that can be used or plain text sources can be used to replace them.
