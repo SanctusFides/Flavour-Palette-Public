@@ -29,17 +29,17 @@ public class CloudinaryImpl {
   // Returns a string of the full images URL
   public static String getFullImageURL(String recipeDTO) {
     // The API line also works to retrieve the image from the API - but we are linking directly from source
-    return "https://res.cloudinary.com/flavour-palette/image/upload/f_auto,q_auto/v1/" + recipeDTO;
+    return "https://res.cloudinary.com/{PLACEHOLDER}/image/upload/f_auto,q_auto/v1/" + recipeDTO;
   }
 
   // Returns a string for the thumbnail sized image URL
   public static String getThumbImageURL(String recipeDTO) {
-    return "https://res.cloudinary.com/flavour-palette/image/upload/c_scale,w_310/" + recipeDTO;
+    return "https://res.cloudinary.com/{PLACEHOLDER}/image/upload/c_scale,w_310/" + recipeDTO;
   }
 
   // Returns a string for the image that is sized at 120px - used as a tiny preview on the edit page
   public static String getSmallImageURL(String recipeDTO) {
-    return "https://res.cloudinary.com/flavour-palette/image/upload/c_scale,w_120/" + recipeDTO;
+    return "https://res.cloudinary.com/{PLACEHOLDER}/image/upload/c_scale,w_120/" + recipeDTO;
   }
 
   public static void deleteImage(String publicId) throws IOException {
