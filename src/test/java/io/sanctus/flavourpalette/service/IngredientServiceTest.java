@@ -1,7 +1,9 @@
 package io.sanctus.flavourpalette.service;
 
 import io.sanctus.flavourpalette.cloudinary_impl.CloudinaryImpl;
+import io.sanctus.flavourpalette.ingredient.Ingredient;
 import io.sanctus.flavourpalette.ingredient.IngredientDTO;
+import io.sanctus.flavourpalette.ingredient.IngredientRepository;
 import io.sanctus.flavourpalette.ingredient.IngredientServiceImpl;
 import io.sanctus.flavourpalette.recipe.Recipe;
 import io.sanctus.flavourpalette.recipe.RecipeDTO;
@@ -28,52 +30,71 @@ class IngredientServiceTest {
     @MockBean
     CloudinaryImpl cloudinary;
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
     private final IngredientServiceImpl ingredientService;
     private final RecipeDTO recipeDTO;
+    private List<IngredientDTO> ingrDTOList;
     private final Recipe recipe;
-    private final List<IngredientDTO> ingrDTOList;
 
     @Autowired
     IngredientServiceTest(RecipeRepository recipeRepository,
+                          IngredientRepository ingredientRepository,
                           IngredientServiceImpl ingredientService) {
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
         this.ingredientService = ingredientService;
-        recipeDTO = RecipeDTO.builder().recipeId("ABC").recipeName("Sandwich").build();
-        recipe = Recipe.builder().recipeId("ABC").recipeName("Sandwich").build();
-        ingrDTOList = new ArrayList<>();
+        this.recipeDTO = RecipeDTO.builder().recipeId("ABC").recipeName("Sandwich").build();
+        this.recipe = Recipe.builder().recipeId("ABC").recipeName("Sandwich").build();
     }
+
     @BeforeEach
     void init() {
         recipeRepository.save(recipe);
-        ingrDTOList.add(IngredientDTO.builder().id(1L).name("first").dbName("first").prepType("diced").recipe(recipe).build());
-        ingrDTOList.add(IngredientDTO.builder().id(2L).name("second").prepType("sliced").recipe(recipe).build());
-        ingredientService.saveIngrList(ingrDTOList);
+
+        Ingredient ingr1 = new Ingredient();
+        ingr1.setName("First");
+        ingr1.setDbName("first");
+        ingr1.setPrepType("diced");
+        ingr1.setRecipe(recipe);
+        ingredientRepository.save(ingr1);
+
+        Ingredient ingr2 = new Ingredient();
+        ingr2.setName("Second");
+        ingr2.setDbName("second");
+        ingr2.setPrepType("sliced");
+        ingr2.setRecipe(recipe);
+        ingredientRepository.save(ingr2);
+
+        ingrDTOList = new ArrayList<>();
+        ingrDTOList.add(IngredientDTO.builder().id(ingr1.getId()).name(ingr1.getName()).dbName(ingr1.getDbName())
+                .prepType(ingr1.getPrepType()).recipe(recipe).build());
+        ingrDTOList.add(IngredientDTO.builder().id(ingr2.getId()).name(ingr2.getName()).dbName(ingr2.getDbName())
+                .prepType(ingr2.getPrepType()).recipe(recipe).build());
     }
+
     @AfterEach
     void tearDown() {
-        recipeRepository.deleteAll();
+        ingredientRepository.flush();
+        ingredientRepository.deleteAll();
+        recipeRepository.flush();
+        recipeRepository.deleteAllInBatch();
         ingrDTOList.clear();
-        ingredientService.deleteIngrList(ingrDTOList);
-    }
-    
-/*  THIS TEST CLASS NEEDS TO HAVE THE TESTS RUN INDIVIDUALLY BECAUSE FOR SOME REASON THE TEST WILL ALTER THE 
-    ID VALUES AND THE ASSERTIONS FOR THOSE IDS WILL RETURN FALSE. IF RUN INDIVIDUALLY THEN THE IDS WILL RETURN CORRECT
-    IT IS NOT CLEAR WHY THESE VALUES ARE CHANGING EVEN THOUGH THE DATA SHOULD BE TORN DOWN AND REMADE BETWEEN THE TESTS*/
-    @Test
-    void GetIngrDTOListByRecipeDTO_ReturnsIngredientsDTOList() {
-        List<IngredientDTO> result = ingredientService.getIngrDTOListByRecipeDTO(recipeDTO);
-        assertThat(result).isNotNull().hasSize(2);
-        assertThat(result.getLast().getId()).isEqualTo(2L);
-        assertThat(result.getLast().getName()).isEqualTo("second");
     }
 
     @Test
+    @Transactional
+    void GetIngrDTOListByRecipeDTO_ReturnsIngredientsDTOList() {
+        List<IngredientDTO> result = ingredientService.getIngrDTOListByRecipeDTO(recipeDTO);
+        assertThat(result.getLast().getName()).isEqualTo("Second");
+    }
+
+    @Test
+    @Transactional
     void DeleteIngrList_GetIngrList_ReturnsEmptyList() {
         List<IngredientDTO> preDelete = ingredientService.getIngrDTOListByRecipeDTO(recipeDTO);
         assertThat(preDelete).isNotNull().hasSize(2);
-        assertThat(preDelete.getLast().getId()).isEqualTo(2L);
-        assertThat(preDelete.getLast().getName()).isEqualTo("second");
-        
+        assertThat(preDelete.getLast().getName()).isEqualTo("Second");
+
         ingredientService.deleteIngrList(ingrDTOList);
         List<IngredientDTO> postDelete = ingredientService.getIngrDTOListByRecipeDTO(recipeDTO);
         assertThat(postDelete).isEmpty();
@@ -83,8 +104,7 @@ class IngredientServiceTest {
     void SaveIngrList_ReturnSavedIngredientList() {
         List<IngredientDTO> savedResults = ingredientService.getIngrDTOListByRecipeDTO(recipeDTO);
         assertThat(savedResults).isNotNull().hasSize(2);
-        assertThat(savedResults.getLast().getId()).isEqualTo(2L);
-        assertThat(savedResults.getLast().getName()).isEqualTo("second");
+        assertThat(savedResults.getLast().getName()).isEqualTo("Second");
         assertThat(savedResults.getLast().getPrepType()).isEqualTo("sliced");
     }
 

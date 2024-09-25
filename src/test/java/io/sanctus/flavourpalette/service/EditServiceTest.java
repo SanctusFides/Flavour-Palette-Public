@@ -10,10 +10,7 @@ import io.sanctus.flavourpalette.instructions.Instructions;
 import io.sanctus.flavourpalette.instructions.InstructionsDTO;
 import io.sanctus.flavourpalette.instructions.InstructionsRepository;
 import io.sanctus.flavourpalette.instructions.InstructionsServiceImpl;
-import io.sanctus.flavourpalette.recipe.Recipe;
-import io.sanctus.flavourpalette.recipe.RecipeDTO;
-import io.sanctus.flavourpalette.recipe.RecipeRepository;
-import io.sanctus.flavourpalette.recipe.RecipeServiceImpl;
+import io.sanctus.flavourpalette.recipe.*;
 import io.sanctus.flavourpalette.recipe_formDTO.IngredientFormDTO;
 import io.sanctus.flavourpalette.recipe_formDTO.InstructionsFormDTO;
 import lombok.NonNull;
@@ -75,7 +72,7 @@ class EditServiceTest {
         this.recipeServiceImpl = recipeServiceImpl;
         this.instructionsServiceImpl = instructionsServiceImpl;
         this.ingredientServiceImpl = ingredientServiceImpl;
-        this.recipeDTO = RecipeDTO.builder().recipeId("ABC").recipeName("Sandwich").prepTime(5).cookTime(5).build();
+        this.recipeDTO = RecipeDTO.builder().recipeId("ABC").authorId("test@test.com").recipeName("Sandwich").prepTime(5).cookTime(5).build();
         this.instructionsFormDTO = new InstructionsFormDTO();
         this.instructionsDTOList = new ArrayList<>();
         this.ingredientFormDTO = new IngredientFormDTO();
@@ -230,7 +227,13 @@ class EditServiceTest {
     }
 
     @Test
+/*  This test needs the deleteAll() and re-save the recipe to DB due to a lingering recipe obj in the table from another
+    test but this only happens when packaging the jar file. Running the test class won't display this issue, so it is
+    imperative to not remove it thinking that it's negligible*/
     void HandleUpdatedRecipe_FindAll_ReturnsRecipeDTO() {
+        recipeRepository.deleteAll();
+        recipeServiceImpl.saveRecipeToDB(recipeDTO);
+
         List<Recipe> firstRecipe = recipeRepository.findAll();
         assertThat(firstRecipe.getFirst().getRecipeName()).isEqualTo("Sandwich");
         assertThat(firstRecipe.getFirst().getTotalTime()).isEqualTo(10);
@@ -271,13 +274,17 @@ class EditServiceTest {
         };
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 
-        RecipeDTO newRecipeDTO = RecipeDTO.builder().recipeId("ABC").recipeName("Sandwich!").prepTime(10).cookTime(10).build();
+        RecipeDTO newRecipeDTO = recipeServiceImpl.mapToDTO(firstRecipe.getFirst());
+        newRecipeDTO.setRecipeName("Sandwich!");
+        newRecipeDTO.setPrepTime(10);
+        newRecipeDTO.setCookTime(10);
+        newRecipeDTO.setTotalTime(20);
         editRecipeService.handleUpdateRecipe(newRecipeDTO,instructionsFormDTO,ingredientFormDTO,
-                formData,multipartFile,"ABC",principal);
+                formData,multipartFile,recipeDTO.getRecipeId(),principal);
         List<Recipe> savedList = recipeRepository.findAll();
 
         assertThat(savedList).isNotNull().isNotEmpty().hasSize(1);
-        assertThat(savedList.getFirst().getRecipeId()).isEqualTo("ABC");
+        assertThat(savedList.getFirst().getRecipeId()).isEqualTo(recipeDTO.getRecipeId());
         assertThat(savedList.getFirst().getAuthorId()).isEqualTo("test@test.com");
         assertThat(savedList.getFirst().getRecipeName()).isEqualTo("Sandwich!");
         assertThat(savedList.getFirst().getTotalTime()).isEqualTo(20);
