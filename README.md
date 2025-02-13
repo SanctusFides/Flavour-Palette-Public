@@ -1,6 +1,10 @@
+![Screenshot 2025-02-13 135943](https://github.com/user-attachments/assets/ac203c28-29a6-4143-8cc2-7995d5bea702)
+![Screenshot 2025-02-13 140014](https://github.com/user-attachments/assets/2d2e30eb-cd05-4834-9380-f46390e1f3e6)
+
 Full encompassing Spring Book project for the resume of https://github.com/SanctusFides/
 
-Requirements to run this app:
+Requirements to run this app:!
+
 
   Google Developer Account: Required to enable Google OAuth logins for users
   -  Add your account's client ID and secret key under applications.yml or remove the security block from the file and only use regular user/pass login methods
